@@ -3,7 +3,7 @@ const fetch = require("node-fetch");
 const path = require("path");
 const { profiles } = require("./data/profiles.json");
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 5000;
 
 app.use(express.static(path.join(__dirname, "..", "public")));
 
@@ -56,7 +56,6 @@ app.get("/latest_scores", async (req, res) => {
             const bottomPoints = standingsWithTransformedPoints.find(
                 team => team.team.name === bottomTeam
             ).newPts;
-            console.log(standingsWithTransformedPoints);
             return {
                 ...profile,
                 totalPoints: topPoints + bottomPoints
@@ -84,6 +83,15 @@ app.get("/todays_matches", async (req, res) => {
         res.status(400).send(e);
     }
 });
+
+if (process.env.NODE_ENV === "production") {
+    // Serve any static files
+    app.use(express.static(path.join(__dirname, "client/build")));
+    // Handle React routing, return all requests to React app
+    app.get("*", function(req, res) {
+        res.sendFile(path.join(__dirname, "client/build", "index.html"));
+    });
+}
 
 //Top 16 (15) - Uruguay, Croatia, Belgium, Argentina, Switzerland, Portugal, Spain, Peru, Germany, Mexico, France, England, Brazil, Poland, Columbia
 //Bottom 16 - Sweden, Russia, Serbia, Iran, Iceland, Japan, Senegal, Tunisia, Panama, Morocco, Saudi Arabia, Costa Rica, South Korea, Egypt, Nigeria, Australia
