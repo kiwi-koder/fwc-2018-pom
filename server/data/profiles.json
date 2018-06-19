@@ -1,0 +1,150 @@
+{
+    "profiles": [
+        {
+            "name": "Brian McManamy",
+            "topTeam": "Argentina",
+            "bottomTeam": "Russia"
+        },
+        { "name": "Tom Imrie", "topTeam": "Argentina", "bottomTeam": "Serbia" },
+        {
+            "name": "Keisi Johanson",
+            "topTeam": "Switzerland",
+            "bottomTeam": "Iran"
+        },
+        { "name": "Liam Gilmer", "topTeam": "Belgium", "bottomTeam": "Russia" },
+        { "name": "Alec Butler", "topTeam": "Peru", "bottomTeam": "Russia" },
+        {
+            "name": "Thomas Randell",
+            "topTeam": "Mexico",
+            "bottomTeam": "Iceland"
+        },
+        {
+            "name": "Bailey Madden",
+            "topTeam": "Uruguay",
+            "bottomTeam": "Tunisia"
+        },
+        {
+            "name": "Normunds Siliniek",
+            "topTeam": "Uruguay",
+            "bottomTeam": "Sweden"
+        },
+        {
+            "name": "Damon Palframan",
+            "topTeam": "Uruguay",
+            "bottomTeam": "Panama"
+        },
+        {
+            "name": "Jeff Baumhower",
+            "topTeam": "France",
+            "bottomTeam": "Sweden"
+        },
+        { "name": "Collin Rieman", "topTeam": "France", "bottomTeam": "Japan" },
+        {
+            "name": "David van Rooyen",
+            "topTeam": "Croatia",
+            "bottomTeam": "Sweden"
+        },
+        {
+            "name": "Colette Saunt",
+            "topTeam": "Mexico",
+            "bottomTeam": "Senegal"
+        },
+        {
+            "name": "Douglas Robertson",
+            "topTeam": "Uruguay",
+            "bottomTeam": "Nigeria"
+        },
+        {
+            "name": "Vera Asongwe",
+            "topTeam": "France",
+            "bottomTeam": "Morocco"
+        },
+        {
+            "name": "Neil Jones",
+            "topTeam": "Croatia",
+            "bottomTeam": "Saudi Arabia"
+        },
+        {
+            "name": "Natalija Bodareva",
+            "topTeam": "Portugal",
+            "bottomTeam": "Sweden"
+        },
+        { "name": "Hamish Imrie", "topTeam": "Spain", "bottomTeam": "Sweden" },
+        {
+            "name": "Robert Matthews",
+            "topTeam": "Spain",
+            "bottomTeam": "South Korea"
+        },
+        {
+            "name": "Jacko De Longe",
+            "topTeam": "Portugal",
+            "bottomTeam": "Egypt"
+        },
+        { "name": "Werner Breedt", "topTeam": "Spain", "bottomTeam": "Egypt" },
+        {
+            "name": "Rebecca Robbins",
+            "topTeam": "Switzerland",
+            "bottomTeam": "Nigeria"
+        },
+        {
+            "name": "Stephen Ryall",
+            "topTeam": "Brazil",
+            "bottomTeam": "Nigeria"
+        },
+        {
+            "name": "Briana Coghlan",
+            "topTeam": "Switzerland",
+            "bottomTeam": "Saudi Arabia"
+        },
+        {
+            "name": "Henk Thomas",
+            "topTeam": "Switzerland",
+            "bottomTeam": "Morocco"
+        },
+        {
+            "name": "Joshua Rippon",
+            "topTeam": "Poland",
+            "bottomTeam": "Senegal"
+        },
+        { "name": "Trey Pierce", "topTeam": "Poland", "bottomTeam": "Panama" },
+        { "name": "Dave Carson", "topTeam": "England", "bottomTeam": "Sweden" },
+        { "name": "Scott Duthie", "topTeam": "Poland", "bottomTeam": "Japan" },
+        {
+            "name": "Shawn Helwig",
+            "topTeam": "Germany",
+            "bottomTeam": "Sweden"
+        },
+        {
+            "name": "Joshua Bizzick",
+            "topTeam": "Germany",
+            "bottomTeam": "Senegal"
+        },
+        {
+            "name": "Wayne Locke",
+            "topTeam": "Belgium",
+            "bottomTeam": "Costa Rica"
+        },
+        {
+            "name": "John Fitzgerald",
+            "topTeam": "Poland",
+            "bottomTeam": "Australia"
+        },
+        { "name": "Zachary Rieman", "topTeam": "Peru", "bottomTeam": "Japan" },
+        {
+            "name": "Claire Powell",
+            "topTeam": "Belgium",
+            "bottomTeam": "Saudi Arabia"
+        },
+        {
+            "name": "Lindy Brits",
+            "topTeam": "England",
+            "bottomTeam": "Saudi Arabia"
+        },
+        {
+            "name": "Abdelrahman Zohairy",
+            "topTeam": "Colombia",
+            "bottomTeam": "Egypt"
+        },
+        { "name": "Fred Hefer", "topTeam": "Germany", "bottomTeam": "Egypt" }
+    ]
+}
