@@ -1,0 +1,10 @@
+{
+    "profiles": [
+        {
+            "name": "John Smith",
+            "topTeam": "Argentina",
+            "bottomTeam": "Russia"
+        },
+        { "name": "Joe Blogs", "topTeam": "Argentina", "bottomTeam": "Serbia" }
+    ]
+}
