@@ -40,6 +40,7 @@ app.get("/latest_scores", async (req, res) => {
             Senegal: 1,
             Japan: 1
         };
+
         const standingsWithTransformedPoints = standings.map(standing => {
             if (bottom16[standing.team.name] === 1) {
                 const newPts = standing.pts * 2;
@@ -68,6 +69,17 @@ app.get("/latest_scores", async (req, res) => {
         res.send(
             profilesWithPoints.sort((a, b) => b.totalPoints - a.totalPoints)
         );
+    } catch (e) {
+        res.status(400).send(e);
+    }
+});
+
+app.get("/todays_matches", async (req, res) => {
+    try {
+        const result = await fetch(
+            "https://raw.githubusercontent.com/openfootball/world-cup.json/master/2018/worldcup.json"
+        ).then(res => res.json());
+        res.send(result);
     } catch (e) {
         res.status(400).send(e);
     }
