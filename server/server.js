@@ -75,3 +75,5 @@ app.get("/latest_scores", async (req, res) => {
 
 //Top 16 (15) - Uruguay, Croatia, Belgium, Argentina, Switzerland, Portugal, Spain, Peru, Germany, Mexico, France, England, Brazil, Poland, Columbia
 //Bottom 16 - Sweden, Russia, Serbia, Iran, Iceland, Japan, Senegal, Tunisia, Panama, Morocco, Saudi Arabia, Costa Rica, South Korea, Egypt, Nigeria, Australia
+
+//this is code
