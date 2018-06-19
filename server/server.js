@@ -75,16 +75,50 @@ app.get("/latest_scores", async (req, res) => {
 
 app.get("/todays_matches", async (req, res) => {
     try {
-        const result = await fetch(
+        const { rounds } = await fetch(
             "https://raw.githubusercontent.com/openfootball/world-cup.json/master/2018/worldcup.json"
         ).then(res => res.json());
-        res.send(result);
+        let currentDate = moment().format("YYYY-MM-DD");
+        const todaysMatches = rounds.find(round => {
+            return round.matches[0].date === currentDate;
+        });
+
+        const matchesWithNames = todaysMatches.matches.map(match => {
+            const team1 = match.team1.name;
+            const team2 = match.team2.name;
+
+            const team1Employees = profiles
+                .filter(profile => {
+                    return (
+                        profile.topTeam === team1 ||
+                        profile.bottomTeam === team1
+                    );
+                })
+                .map(profile => profile.name);
+            const team2Employees = profiles
+                .filter(profile => {
+                    return (
+                        profile.bottomTeam === team2 ||
+                        profile.bottomTeam === team2
+                    );
+                })
+                .map(profile => profile.name);
+
+            return { ...match, team1Employees, team2Employees };
+        });
+        todaysMatches.matches = matchesWithNames;
+
+        res.send(todaysMatches);
     } catch (e) {
         res.status(400).send(e);
     }
 });
 
-//Top 16 (15) - Uruguay, Croatia, Belgium, Argentina, Switzerland, Portugal, Spain, Peru, Germany, Mexico, France, England, Brazil, Poland, Columbia
-//Bottom 16 - Sweden, Russia, Serbia, Iran, Iceland, Japan, Senegal, Tunisia, Panama, Morocco, Saudi Arabia, Costa Rica, South Korea, Egypt, Nigeria, Australia
-
-//this is code
+if (process.env.NODE_ENV === "production") {
+    // Serve any static files
+    app.use(express.static(path.join(__dirname, "client/build")));
+    // Handle React routing, return all requests to React app
+    app.get("*", function(req, res) {
+        res.sendFile(path.join(__dirname, "client/build", "index.html"));
+    });
+}
