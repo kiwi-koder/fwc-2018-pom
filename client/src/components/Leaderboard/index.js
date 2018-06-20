@@ -46,6 +46,7 @@ const Leaderboard = ({ profiles, classes }) => {
                         <CustomTableCell>Top Team</CustomTableCell>
                         <CustomTableCell>Bottom Team</CustomTableCell>
                         <CustomTableCell>Total Points</CustomTableCell>
+                        <CustomTableCell>Games Played</CustomTableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -64,6 +65,9 @@ const Leaderboard = ({ profiles, classes }) => {
                                 </CustomTableCell>
                                 <CustomTableCell>
                                     {profile.totalPoints}
+                                </CustomTableCell>
+                                <CustomTableCell>
+                                    {profile.played}
                                 </CustomTableCell>
                             </TableRow>
                         );

@@ -1,5 +1,6 @@
 const express = require("express");
 const fetch = require("node-fetch");
+const moment = require("moment");
 const path = require("path");
 const { profiles } = require("./data/profiles.json");
 const app = express();
@@ -48,15 +49,20 @@ app.get("/latest_scores", async (req, res) => {
         });
         const profilesWithPoints = profiles.map(profile => {
             const { topTeam, bottomTeam } = profile;
-            const topPoints = standingsWithTransformedPoints.find(
+            const theTopTeam = standingsWithTransformedPoints.find(
                 team => team.team.name === topTeam
-            ).newPts;
-            const bottomPoints = standingsWithTransformedPoints.find(
+            );
+            const topPoints = theTopTeam.newPts;
+            const topPlayed = theTopTeam.played;
+            const theBottomTeam = standingsWithTransformedPoints.find(
                 team => team.team.name === bottomTeam
-            ).newPts;
+            );
+            const bottomPoints = theBottomTeam.newPts;
+            const bottomPlayed = theBottomTeam.played;
             return {
                 ...profile,
-                totalPoints: topPoints + bottomPoints
+                totalPoints: topPoints + bottomPoints,
+                played: topPlayed + bottomPlayed
             };
         });
         // res.send(
@@ -96,7 +102,7 @@ app.get("/todays_matches", async (req, res) => {
             const team2Employees = profiles
                 .filter(profile => {
                     return (
-                        profile.bottomTeam === team2 ||
+                        profile.topTeam === team2 ||
                         profile.bottomTeam === team2
                     );
                 })
