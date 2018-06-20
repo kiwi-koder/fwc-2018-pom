@@ -33,58 +33,65 @@ const TodaysMatches = ({ classes, matchDay, matches }) => {
                 <Typography variant="headline" component="h3">
                     {matchDay} - Today's Matches
                 </Typography>
-                {matches.map((match, i) => {
-                    console.log(match);
-                    return (
-                        <div key={i}>
-                            <table className={classes.table}>
-                                <thead>
-                                    <tr>
-                                        <th>{match.team1.name}</th>
+                {matches
+                    .sort((a, b) =>
+                        moment(`${a.date} ${a.time}`).diff(
+                            moment(`${b.date} ${b.time}`),
+                            "hours"
+                        )
+                    )
+                    .map((match, i) => {
+                        console.log(match);
+                        return (
+                            <div key={i}>
+                                <table className={classes.table}>
+                                    <thead>
+                                        <tr>
+                                            <th>{match.team1.name}</th>
 
-                                        <th>VS.</th>
+                                            <th>VS.</th>
 
-                                        <th>{match.team2.name}</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            {match.team1Employees.map(
-                                                (employee, i) => {
-                                                    return (
-                                                        <div key={i}>
-                                                            {employee}
-                                                        </div>
-                                                    );
-                                                }
-                                            )}
-                                        </td>
-                                        <td />
-                                        <td>
-                                            {match.team2Employees.map(
-                                                (employee, i) => {
-                                                    return (
-                                                        <div key={i}>
-                                                            {employee}
-                                                        </div>
-                                                    );
-                                                }
-                                            )}
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <div>
-                                {getLocalTime(
-                                    match.date,
-                                    match.time,
-                                    match.timezone
-                                )}
+                                            <th>{match.team2.name}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                {match.team1Employees.map(
+                                                    (employee, i) => {
+                                                        return (
+                                                            <div key={i}>
+                                                                {employee}
+                                                            </div>
+                                                        );
+                                                    }
+                                                )}
+                                            </td>
+                                            <td />
+                                            <td>
+                                                {match.team2Employees.map(
+                                                    (employee, i) => {
+                                                        return (
+                                                            <div key={i}>
+                                                                {employee}
+                                                            </div>
+                                                        );
+                                                    }
+                                                )}
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div>
+                                    {getLocalTime(
+                                        match.date,
+                                        match.time,
+                                        match.timezone
+                                    )}
+                                </div>
                             </div>
-                        </div>
-                    );
-                })}
+                        );
+                    })}
             </Paper>
         </div>
     ) : (
