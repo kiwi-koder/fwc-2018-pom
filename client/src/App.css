@@ -17,7 +17,13 @@
 .App-title {
     font-size: 1.5em;
 }
+.App-subheader {
+    font-size: 0.8em;
+}
 
+.web-link {
+    color: grey;
+}
 .App-intro {
     font-size: large;
     width: 1200px;

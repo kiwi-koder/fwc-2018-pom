@@ -41,6 +41,15 @@ class App extends Component {
             <div className="App">
                 <header className="App-header">
                     <h1 className="App-title">Pomerol Fifa Leaderboard</h1>
+                    <h2 className="App-subheader">
+                        Follow your team at the official{" "}
+                        <a
+                            href=" https://www.fifa.com/worldcup/"
+                            className="web-link"
+                        >
+                            Fifa World Cup Page
+                        </a>
+                    </h2>
                 </header>
                 <div className="App-intro">
                     <Leaderboard profiles={this.state.profiles} />
