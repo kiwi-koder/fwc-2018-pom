@@ -8,20 +8,23 @@ class App extends Component {
     state = {
         profiles: undefined,
         matchDay: undefined,
-        matches: undefined
+        matches: undefined,
+        leaderboardLoading: true,
+        matchesLoading: true
     };
 
     componentDidMount() {
         this.callApi("/latest_scores")
             .then(res => {
-                this.setState({ profiles: res });
+                this.setState({ profiles: res, leaderboardLoading: false });
             })
             .catch(err => console.log(err));
         this.callApi("/todays_matches")
             .then(res => {
                 this.setState({
                     matchDay: res.name,
-                    matches: res.matches
+                    matches: res.matches,
+                    matchesLoading: false
                 });
             })
             .catch(err => console.log(err));
@@ -37,6 +40,7 @@ class App extends Component {
     };
 
     render() {
+        console.log(this.state.leaderboardLoading);
         return (
             <div className="App">
                 <header className="App-header">
@@ -52,10 +56,14 @@ class App extends Component {
                     </h2>
                 </header>
                 <div className="App-intro">
-                    <Leaderboard profiles={this.state.profiles} />
+                    <Leaderboard
+                        profiles={this.state.profiles}
+                        isLoading={this.state.leaderboardLoading}
+                    />
                     <TodaysMatches
                         matchDay={this.state.matchDay}
                         matches={this.state.matches}
+                        isLoading={this.state.matchesLoading}
                     />
                 </div>
             </div>

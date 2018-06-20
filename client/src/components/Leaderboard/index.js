@@ -6,7 +6,9 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import { withStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
+import WithLoading from "./../../hoc/WithLoading";
 
+const TableWithLoading = WithLoading(Table);
 const CustomTableCell = withStyles(theme => ({
     head: {
         backgroundColor: "#222",
@@ -20,25 +22,25 @@ const CustomTableCell = withStyles(theme => ({
 const styles = theme => ({
     root: {
         width: "100%",
-        height: 550,
+        maxHeight: 320,
         marginTop: theme.spacing.unit * 3,
         overflow: "auto"
     },
     table: {
-        minWidth: 700,
         fixedHeader: true
     },
     row: {
         "&:nth-of-type(odd)": {
-            backgroundColor: "blue"
-        }
+            backgroundColor: theme.palette.background.default
+        },
+        height: 5
     }
 });
 
-const Leaderboard = ({ profiles, classes }) => {
-    return profiles ? (
+const Leaderboard = ({ profiles, classes, isLoading }) => {
+    return (
         <Paper className={classes.root}>
-            <Table className={classes.table}>
+            <TableWithLoading isLoading={isLoading} className={classes.table}>
                 <TableHead>
                     <TableRow>
                         <CustomTableCell>Rank</CustomTableCell>
@@ -50,33 +52,34 @@ const Leaderboard = ({ profiles, classes }) => {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {profiles.map((profile, index) => {
-                        return (
-                            <TableRow key={index}>
-                                <CustomTableCell>{index + 1}</CustomTableCell>
-                                <CustomTableCell>
-                                    {profile.name}
-                                </CustomTableCell>
-                                <CustomTableCell>
-                                    {profile.topTeam}
-                                </CustomTableCell>
-                                <CustomTableCell>
-                                    {profile.bottomTeam}
-                                </CustomTableCell>
-                                <CustomTableCell>
-                                    {profile.totalPoints}
-                                </CustomTableCell>
-                                <CustomTableCell>
-                                    {profile.played}
-                                </CustomTableCell>
-                            </TableRow>
-                        );
-                    })}
+                    {profiles &&
+                        profiles.map((profile, index) => {
+                            return (
+                                <TableRow key={index} className={classes.row}>
+                                    <CustomTableCell>
+                                        {index + 1}
+                                    </CustomTableCell>
+                                    <CustomTableCell>
+                                        {profile.name}
+                                    </CustomTableCell>
+                                    <CustomTableCell>
+                                        {profile.topTeam}
+                                    </CustomTableCell>
+                                    <CustomTableCell>
+                                        {profile.bottomTeam}
+                                    </CustomTableCell>
+                                    <CustomTableCell>
+                                        {profile.totalPoints}
+                                    </CustomTableCell>
+                                    <CustomTableCell>
+                                        {profile.played}
+                                    </CustomTableCell>
+                                </TableRow>
+                            );
+                        })}
                 </TableBody>
-            </Table>
+            </TableWithLoading>
         </Paper>
-    ) : (
-        <div />
     );
 };
 
