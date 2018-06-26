@@ -45,8 +45,8 @@ const Leaderboard = ({ profiles, classes, isLoading }) => {
                     <TableRow>
                         <CustomTableCell>Rank</CustomTableCell>
                         <CustomTableCell>Name</CustomTableCell>
-                        <CustomTableCell>Top Team</CustomTableCell>
-                        <CustomTableCell>Bottom Team</CustomTableCell>
+                        <CustomTableCell>Top Team (w-d-l)</CustomTableCell>
+                        <CustomTableCell>Bottom Team (w-d-l)</CustomTableCell>
                         <CustomTableCell>Total Points</CustomTableCell>
                         <CustomTableCell>Games Played</CustomTableCell>
                     </TableRow>
@@ -54,6 +54,7 @@ const Leaderboard = ({ profiles, classes, isLoading }) => {
                 <TableBody>
                     {profiles &&
                         profiles.map((profile, index) => {
+                            console.log(profile);
                             return (
                                 <TableRow key={index} className={classes.row}>
                                     <CustomTableCell>
@@ -63,10 +64,16 @@ const Leaderboard = ({ profiles, classes, isLoading }) => {
                                         {profile.name}
                                     </CustomTableCell>
                                     <CustomTableCell>
-                                        {profile.topTeam}
+                                        {profile.topTeam}{" "}
+                                        {`${profile.topTeamStats.wins}-${
+                                            profile.topTeamStats.draws
+                                        }-${profile.topTeamStats.losses}`}
                                     </CustomTableCell>
                                     <CustomTableCell>
-                                        {profile.bottomTeam}
+                                        {profile.bottomTeam}{" "}
+                                        {`${profile.bottomTeamStats.wins}-${
+                                            profile.bottomTeamStats.draws
+                                        }-${profile.bottomTeamStats.losses}`}
                                     </CustomTableCell>
                                     <CustomTableCell>
                                         {profile.totalPoints}

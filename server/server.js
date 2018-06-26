@@ -3,6 +3,7 @@ const fetch = require("node-fetch");
 const moment = require("moment");
 const path = require("path");
 const { profiles } = require("./data/profiles.json");
+const bottom16 = require("./data/bottom16.json");
 const app = express();
 const port = process.env.PORT || 5000;
 
@@ -12,62 +13,41 @@ app.listen(port, () => {
 
 app.get("/latest_scores", async (req, res) => {
     try {
-        const { groups } = await fetch(
-            "https://raw.githubusercontent.com/openfootball/world-cup.json/master/2018/worldcup.standings.json"
+        const teamScores = await fetch(
+            "https://worldcup.sfg.io/teams/results"
         ).then(res => res.json());
 
         let standings = [];
-        groups.forEach(group => {
-            standings = [...standings, ...group.standings];
-        });
 
-        const bottom16 = {
-            Russia: 1,
-            Egypt: 1,
-            "Saudi Arabia": 1,
-            Iran: 1,
-            Morocco: 1,
-            Australia: 1,
-            Iceland: 1,
-            Nigeria: 1,
-            Serbia: 1,
-            "Costa Rica": 1,
-            Sweden: 1,
-            "South Korea": 1,
-            Tunisia: 1,
-            Panama: 1,
-            Senegal: 1,
-            Japan: 1
-        };
-
-        const standingsWithTransformedPoints = standings.map(standing => {
-            if (bottom16[standing.team.name] === 1) {
-                const newPts = standing.pts * 2;
-                return { ...standing, newPts };
+        const standingsWithTransformedPoints = teamScores.map(teamScore => {
+            console.log(bottom16);
+            if (bottom16[teamScore.country] === 1) {
+                const newPts = teamScore.points * 2;
+                return { ...teamScore, newPts };
             }
-            return { ...standing, newPts: standing.pts };
+            return { ...teamScore, newPts: teamScore.points };
         });
+
         const profilesWithPoints = profiles.map(profile => {
             const { topTeam, bottomTeam } = profile;
-            const theTopTeam = standingsWithTransformedPoints.find(
-                team => team.team.name === topTeam
+            const topTeamStats = standingsWithTransformedPoints.find(
+                team => team.country === topTeam
             );
-            const topPoints = theTopTeam.newPts;
-            const topPlayed = theTopTeam.played;
-            const theBottomTeam = standingsWithTransformedPoints.find(
-                team => team.team.name === bottomTeam
+            const topPoints = topTeamStats.newPts;
+            const topPlayed = topTeamStats.games_played;
+            const bottomTeamStats = standingsWithTransformedPoints.find(
+                team => team.country === bottomTeam
             );
-            const bottomPoints = theBottomTeam.newPts;
-            const bottomPlayed = theBottomTeam.played;
+            const bottomPoints = bottomTeamStats.newPts;
+            const bottomPlayed = bottomTeamStats.games_played;
             return {
                 ...profile,
                 totalPoints: topPoints + bottomPoints,
-                played: topPlayed + bottomPlayed
+                played: topPlayed + bottomPlayed,
+                topTeamStats,
+                bottomTeamStats
             };
         });
-        // res.send(
-        //     standingsWithTransformedPoints.sort((a, b) => b.newPts - a.newPts)
-        // );
 
         res.send(
             profilesWithPoints.sort((a, b) => b.totalPoints - a.totalPoints)
@@ -119,9 +99,7 @@ app.get("/todays_matches", async (req, res) => {
 });
 
 if (process.env.NODE_ENV === "production") {
-    // Serve any static files
     app.use(express.static(path.join(__dirname, "..", "client", "build")));
-    // Handle React routing, return all requests to React app
     app.get("*", function(req, res) {
         res.sendFile(
             path.join(__dirname, "..", "client", "build", "index.html")
