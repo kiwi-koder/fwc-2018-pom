@@ -38,14 +38,21 @@ const getLocalTime = (date, time, timezone) => {
     return myTime;
 };
 
-const TodaysMatches = ({ classes, matchDay, matches, isLoading }) => {
+const TodaysMatches = ({
+    classes,
+    matchDay,
+    matches,
+    isLoading,
+    noMatches
+}) => {
     return (
         <Paper className={classes.root} elevation={4}>
             <DivWithLoading isLoading={isLoading}>
                 <Typography variant="headline" component="h3">
-                    {matchDay} - Today's Matches
+                    {noMatches ? "No matches today sorry!" : { matchDay }}
                 </Typography>
                 {matches &&
+                    !noMatches &&
                     matches
                         .sort((a, b) =>
                             moment(`${a.date} ${a.time}`).diff(

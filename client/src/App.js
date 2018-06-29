@@ -10,7 +10,8 @@ class App extends Component {
         matchDay: undefined,
         matches: undefined,
         leaderboardLoading: true,
-        matchesLoading: true
+        matchesLoading: true,
+        noMatches: false
     };
 
     componentDidMount() {
@@ -27,7 +28,12 @@ class App extends Component {
                     matchesLoading: false
                 });
             })
-            .catch(err => console.log(err));
+            .catch(err =>
+                this.setState({
+                    matchesLoading: false,
+                    noMatches: true
+                })
+            );
     }
 
     callApi = async route => {
@@ -64,6 +70,7 @@ class App extends Component {
                         matchDay={this.state.matchDay}
                         matches={this.state.matches}
                         isLoading={this.state.matchesLoading}
+                        noMatches={this.state.noMatches}
                     />
                 </div>
             </div>
