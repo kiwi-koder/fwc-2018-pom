@@ -1,31 +1,32 @@
 {
-    "name": "fwc-2018-pom",
-    "version": "1.0.0",
-    "description": "",
-    "main": "index.js",
-    "scripts": {
-        "start": "node server/server.js",
-        "client": "cd client && yarn start",
-        "server": "SET \"NODE_ENV=dev\" && nodemon server/server.js",
-        "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\"",
-        "test": "echo \"Error: no test specified\" && exit 1",
-        "heroku-postbuild": "cd client && npm install && npm install --only=dev --no-shrinkwrap && npm run build"
-    },
-    "author": "",
-    "license": "ISC",
-    "dependencies": {
-        "concurrently": "^3.6.0",
-        "express": "^4.16.3",
-        "moment": "^2.22.2",
-        "moment-timezone": "^0.5.20",
-        "node-fetch": "^2.1.2",
-        "path": "^0.12.7",
-        "react": "^16.4.1",
-        "react-dom": "^16.4.1",
-        "webpack": "^4.12.0",
-        "webpack-dev-server": "^3.1.4"
-    },
-    "devDependencies": {
-        "nodemon": "^1.17.5"
-    }
+  "name": "fwc-2018-pom",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server/server.js",
+    "client": "cd client && yarn start",
+    "playground": "SET \"NODE_ENV=dev\" && nodemon playground/practice.js",
+    "server": "SET \"NODE_ENV=dev\" && nodemon server/server.js",
+    "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\"",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "heroku-postbuild": "cd client && npm install && npm install --only=dev --no-shrinkwrap && npm run build"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "concurrently": "^3.6.0",
+    "express": "^4.16.3",
+    "moment": "^2.22.2",
+    "moment-timezone": "^0.5.20",
+    "node-fetch": "^2.1.2",
+    "path": "^0.12.7",
+    "react": "^16.4.1",
+    "react-dom": "^16.4.1",
+    "webpack": "^4.12.0",
+    "webpack-dev-server": "^3.1.4"
+  },
+  "devDependencies": {
+    "nodemon": "^1.17.5"
+  }
 }

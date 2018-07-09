@@ -14,8 +14,10 @@ app.listen(port, () => {
 
 app.get("/latest_scores", async (req, res) => {
   try {
-    const [teamScores, allMatches] = await Promise.all([
-      fetch("https://worldcup.sfg.io/teams/results").then(res => res.json()),
+    const [{ groups }, allMatches] = await Promise.all([
+      fetch(
+        "https://raw.githubusercontent.com/openfootball/world-cup.json/master/2018/worldcup.standings.json"
+      ).then(res => res.json()),
       fetch("https://worldcup.sfg.io/matches").then(res => res.json())
     ]);
 
@@ -40,65 +42,102 @@ app.get("/latest_scores", async (req, res) => {
       return theTeam !== finalWinner[0];
     });
 
-    const standingsWithTransformedPoints = teamScores.map(teamScore => {
-      let newPts = teamScore.points;
-      if (
-        bottom16[teamScore.country] === "first" ||
-        top16[teamScore.country] === "first"
-      ) {
-        newPts += 3;
-      }
-      if (
-        bottom16[teamScore.country] === "second" ||
-        top16[teamScore.country] === "second"
-      ) {
-        newPts += 2;
-      }
-      if (round16Winners.includes(teamScore.country)) {
-        newPts += 4;
-      }
-      if (quarterFinalWinners.includes(teamScore.country)) {
-        newPts += 5;
-      }
-      if (semiFinalWinners.includes(teamScore.country)) {
-        newPts += 6;
-      }
-      if (thirdAndFourthWinner.includes(teamScore.country)) {
-        newPts += 5;
-      }
-      if (secondPlace.includes(teamScore.country)) {
-        newPts += 6;
-      }
-      if (finalWinner.includes(teamScore.country)) {
-        newPts += 8;
-      }
-      if (bottom16[teamScore.country]) {
-        newPts = newPts * 2;
-      }
-      return { ...teamScore, newPts };
+    const standingsWithTransformedPoints = groups.map(standing => {
+      let insideStandings = standing.standings.map(groups => {
+        let newPts = groups.pts;
+        if (
+          bottom16[groups.team.name] === "first" ||
+          top16[groups.team.name] === "first"
+        ) {
+          newPts += 3;
+        }
+        if (
+          bottom16[groups.team.name] === "second" ||
+          top16[groups.team.name] === "second"
+        ) {
+          newPts += 2;
+        }
+        if (round16Winners.includes(groups.team.name)) {
+          newPts += 4;
+        }
+        if (quarterFinalWinners.includes(groups.team.name)) {
+          newPts += 5;
+        }
+        if (semiFinalWinners.includes(groups.team.name)) {
+          newPts += 6;
+        }
+        if (thirdAndFourthWinner.includes(groups.team.name)) {
+          newPts += 5;
+        }
+        if (secondPlace.includes(groups.team.name)) {
+          newPts += 6;
+        }
+        if (finalWinner.includes(groups.team.name)) {
+          newPts += 8;
+        }
+        if (bottom16[groups.team.name]) {
+          newPts = newPts * 2;
+        }
+        return { ...groups, newPts };
+      });
+      return insideStandings;
     });
 
-    const profilesWithPoints = profiles.map(profile => {
-      const { topTeam, bottomTeam } = profile;
-      const topTeamStats = standingsWithTransformedPoints.find(
-        team => team.country === topTeam
-      );
-      const topPoints = topTeamStats.newPts;
-      const topPlayed = topTeamStats.games_played;
-      const bottomTeamStats = standingsWithTransformedPoints.find(
-        team => team.country === bottomTeam
-      );
-      const bottomPoints = bottomTeamStats.newPts;
-      const bottomPlayed = bottomTeamStats.games_played;
-      return {
-        ...profile,
-        totalPoints: topPoints + bottomPoints,
-        played: topPlayed + bottomPlayed,
-        topTeamStats,
-        bottomTeamStats
-      };
-    });
-    res.send(profilesWithPoints.sort((a, b) => b.totalPoints - a.totalPoints));
+    // const testCase = standingsWithTransformedPoints.map(whole => {
+    //   let firstLayer = whole.map(groups => groups.team.name);
+    //   return firstLayer;
+    // });
+
+    // const profilesWithPoints = profiles.map(profile => {
+    //   const { topTeam, bottomTeam } = profile;
+    //   const topTeamStats = standingsWithTransformedPoints.find(
+    //     (entireSet => {
+    //       let placeHolder = entireSet.map(whole => {
+    //         let firstLayer = whole.map(groups.team.name);
+    //         return firstLayer;
+    //       });
+    //       return placeHolder;
+    //     }) === topTeam
+    //   );
+
+    //   const topPoints = topTeamStats.map(groupLevel => {
+    //     let teamLevel = groupLevel.map(team => team.newPts);
+    //     return teamLevel;
+    //   });
+    // const topPlayed = topTeamStats.map(groupLevel => {
+    //   let teamLevel = groupLevel.map(team => team.played);
+    //   return teamLevel;
+    // });
+    // const bottomTeamStats = standingsWithTransformedPoints.find(
+    //   firstLayer => firstLayer.map(name => name.team.name) === bottomTeam
+    // );
+
+    // const bottomPoints = bottomTeamStats.map(groupLevel => {
+    //   let teamLevel = groupLevel.map(team => team.newPts);
+    //   return teamLevel;
+    // });
+    // const bottomPlayed = bottomTeamStats.map(groupLevel => {
+    //   let teamLevel = groupLevel.map(team => team.played);
+    //   return teamLevel;
+    // });
+
+    // return {
+    //   ...profile,
+    //   totalPoints: topPoints + bottomPoints,
+    //   played: topPlayed + bottomPlayed,
+    //   topTeamStats,
+    //   bottomTeamStats
+    // };
+
+    //   return {
+    //     ...profile,
+    //     totalPoints: topPoints,
+    //     topTeamStats
+    //   };
+    // });
+
+    // res.send(profilesWithPoints.sort((a, b) => b.totalPoints - a.totalPoints));
+    res.send(standingsWithTransformedPoints);
   } catch (e) {
     res.status(400).send(e);
   }
